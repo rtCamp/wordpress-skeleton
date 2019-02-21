@@ -1,9 +1,35 @@
-workflow "New workflow" {
+workflow "Deploy and Slack Notification" {
   on = "push"
-  resolves = ["Filters for GitHub Actions"]
+  resolves = ["Slack Notification"]
 }
 
-action "Filters for GitHub Actions" {
-  uses = "actions/bin/filter@c6471707d308175c57dfe91963406ef205837dbd"
-  args = "master"
+# Deploy Filter 
+action "Correct branch filter" {
+  uses = "rtCamp/github-actions-library/bin/filter@master"
+  args = "branch master develop qa"
+}
+
+action "Run phpcs inspection" {
+  needs = ["Correct branch filter"]
+  uses = "rtCamp/github-actions-library/inspections/codesniffer@master"
+}
+
+action "White Screen Test" {
+  needs = ["Run phpcs inspection"]
+  uses = "rtCamp/github-actions-library/test/white-screen@master"
+}
+
+action "Deploy" {
+  needs = ["White Screen Test"]
+  uses = "rtCamp/github-actions-library/deploy@master"
+  secrets = ["VAULT_ADDR", "VAULT_TOKEN"]
+}
+
+action "Slack Notification" {
+  needs = ["Deploy"]
+  uses = "rtCamp/github-actions-library/notification/vault-slack@master"
+  env = {
+    SLACK_CHANNEL = "test"
+  }
+  secrets = ["VAULT_ADDR", "VAULT_TOKEN"]
 }
