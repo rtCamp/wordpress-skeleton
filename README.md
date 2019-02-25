@@ -22,7 +22,7 @@ git clone --depth=1 git@github.com:rtCamp/github-actions-wordpress-skeleton.git
 
 4. Update `SLACK_CHANNEL` value in `main.workflow`, set it to the channel in which you want build slack notifications.
 
-**Note: If site has not been created with `--public-dir=current` EasyEngine flag, then only steps 5 and 6 are required.**
+**Note: Steps 5 and 6 are required, only if the site has not been created with `--public-dir=current` EasyEngine flag**
 
 5. Update nginx webroot of the site to point to `/var/www/htdocs/current` .
 
