@@ -1,7 +1,7 @@
 # GitHub Actions - WordPress Skeleton
     
 ## Project short intro
-This project is used as a base for setting up CI/CD using GitHub actions for new or existing projects.
+This project is used as a base for setting up CI/CD using GitHub actions for new or existing projects. It uses [GitHub Actions Library](https://github.com/rtCamp/github-actions-library) for actions inside the workflow.
 
 ## Setup CI/CD
 To setup CI/CD in your project follow these steps:
