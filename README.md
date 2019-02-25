@@ -33,7 +33,7 @@ mv /opt/easyengine/example.com/app/wp-config.php /opt/easyengine/example.com/app
 
 ## Customize the actions
 
-[GitHub actions library](https://github.com/rtCamp/github-actions-library) have the flexibility of customization to accomodate various scenarios.
+[GitHub actions library](https://github.com/rtCamp/github-actions-library) has the flexibility of customization to accomodate various scenarios.
 
 To customize any particular file in the action, follow the folder structure of the library inside `.github` folder. File inside `.github` folder will override the default file in the action.
 
@@ -49,3 +49,6 @@ A: You can update the `deply.php` as stated above, and add a task to run `compos
 
 3. How to change phpcs inspections standards?
 A: Take [this phpcs.sh](https://raw.githubusercontent.com/rtCamp/github-actions-library/7af8f915bfa9263e2241d8f0db42ab05804ec5a2/inspections/codesniffer/phpcs.sh) as the base file and place it in location `.github/inspections/codesniffer/phpcs.sh`. Then, update [following lines](https://github.com/rtCamp/github-actions-library/blob/7af8f915bfa9263e2241d8f0db42ab05804ec5a2/inspections/codesniffer/phpcs.sh#L19-L24) to install standards according to the need of project.
+
+4. How to setup git repo for mu-plugins cloning for vip site?
+A: By default, if `vip: true` is setup in `hosts.yml`, then https://github.com/Automattic/vip-mu-plugins-public repo is cloned. If any other repo is required, then it can be setup as [env variable](https://github.com/rtCamp/github-actions-library/tree/7af8f915bfa9263e2241d8f0db42ab05804ec5a2/deploy#environment-variables-that-can-be-setup-in-the-github-actions) in action `Deploy` in `main.workflow` file. 
