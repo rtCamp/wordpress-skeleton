@@ -1,14 +1,14 @@
 # GitHub Actions - WordPress Skeleton
     
 ## Project short intro
-This project is used as a base for setting up CI/CD using GitHub actions for new or existing projects. It uses [GitHub Actions Library](https://github.com/rtCamp/github-actions-library) for actions inside the workflow.
+This project is used as a base for setting up CI/CD using GitHub actions for new or existing projects. It uses [GitHub Actions Library](https://github.com/rtCamp/github-actions-library) for actions inside the workflow. `.github` folder in the repository contains the main CI/CD scripts.
 
 ## Setup CI/CD
 To setup CI/CD in your project follow these steps:
 
 0. If you're creating a site through EasyEngine v4, add flag `--public-dir=current` in creation for proper configuration and then delete the current folder (`rm -r /opt/easyengine/sites/example.com/app/htdocs/current`), it will get created by deployer in CI/CD.
 
-1. Setup your repo according to the skeleton strucutre of this repo. `.github` folder contains the main CI/CD scripts. In case of fresh projects, you can start with a direct clone of this repo. For existing projects take the `.github` folder.
+1. Setup your repo according to the skeleton strucutre of this repo. In case of fresh projects, you can start with a direct clone of this repo. For existing projects you can take the `.github` folder.
 
 ```bash
 git clone --depth=1 git@github.com:rtCamp/github-actions-wordpress-skeleton.git
@@ -28,7 +28,10 @@ git clone --depth=1 git@github.com:rtCamp/github-actions-wordpress-skeleton.git
 
 **Note: Steps 6 and 7 are required, only if the site has not been created with `--public-dir=current` EasyEngine flag**
 
-6. Update nginx webroot of the site to point to `/var/www/htdocs/current` .
+6. Update nginx webroot of the site to point to `/var/www/htdocs/current`. 
+If you are using EasyEngine v4 then:
+    1. Update the file: `/opt/easyengine/sites/example.com/config/nginx/conf.d/main.conf` and replace `/var/www/htdocs` with `/var/www/htdocs/current`
+    2. Run `ee site reload example.com`.
 
 7. Move `wp-config.php` inside `htdocs` folder.
 ```bash
