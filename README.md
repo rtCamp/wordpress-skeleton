@@ -6,7 +6,9 @@ This project is used as a base for setting up CI/CD using GitHub actions for new
 ## Setup CI/CD
 To setup CI/CD in your project follow these steps:
 
-1. Download the required configuration files.
+0. If you're creating a site through EasyEngine v4, add flag `--public-dir=current` in creation for proper configuration.
+
+1. Download the required configuration files and put them in `.github` folder of your repo.
 
 ```bash
 git clone --depth=1 git@github.com:rtCamp/github-actions-wordpress-skeleton.git
