@@ -6,7 +6,7 @@ This project is used as a base for setting up CI/CD using GitHub actions for new
 ## Setup CI/CD
 To setup CI/CD in your project follow these steps:
 
-0. If you're creating a site through EasyEngine v4, add flag `--public-dir=current` in creation for proper configuration and then delete the current folder, it will get created by deployer in CI/CD.
+0. If you're creating a site through EasyEngine v4, add flag `--public-dir=current` in creation for proper configuration and then delete the current folder (`rm -r /opt/easyengine/sites/example.com/app/htdocs/current`), it will get created by deployer in CI/CD.
 
 1. Download the required configuration files and put them in `.github` folder of your repo.
 
