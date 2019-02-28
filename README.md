@@ -8,7 +8,7 @@ To setup CI/CD in your project follow these steps:
 
 0. If you're creating a site through EasyEngine v4, add flag `--public-dir=current` in creation for proper configuration and then delete the current folder (`rm -r /opt/easyengine/sites/example.com/app/htdocs/current`), it will get created by deployer in CI/CD.
 
-1. Download the required configuration files and put them in `.github` folder of your repo.
+1. Setup your repo according to the skeleton strucutre of this repo. `.github` folder contains the main CI/CD scripts. In case of fresh projects, you can start with a direct clone of this repo. For existing projects take the `.github` folder.
 
 ```bash
 git clone --depth=1 git@github.com:rtCamp/github-actions-wordpress-skeleton.git
