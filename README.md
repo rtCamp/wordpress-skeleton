@@ -21,18 +21,16 @@ git clone --depth=1 git@github.com:rtCamp/github-actions-wordpress-skeleton.git
         2. `wp-version` can be set to `latest` for latest released version. Or it can be pinned to a specified by setting a value like: `5.0.3`.
         3. Setup `slack_channel`, with the channel name you want to send notification to. If left empty, it will disable slack notifications.
 
-3. Update `SLACK_CHANNEL` value in `main.workflow`, set it to the channel in which you want build slack notifications.
+3. Update [GitHub secret](https://developer.github.com/actions/creating-workflows/storing-secrets/) and add `VAULT_ADDR` and `VAULT_TOKEN` secret. Please contact sys team for this step.
 
-4. Update [GitHub secret](https://developer.github.com/actions/creating-workflows/storing-secrets/) and add `VAULT_ADDR` and `VAULT_TOKEN` secret. Please contact sys team for this step.
+**Note: Steps 4 and 5 are required, only if the site has not been created with `--public-dir=current` EasyEngine flag**
 
-**Note: Steps 5 and 6 are required, only if the site has not been created with `--public-dir=current` EasyEngine flag**
-
-5. Update nginx webroot of the site to point to `/var/www/htdocs/current`. 
+4. Update nginx webroot of the site to point to `/var/www/htdocs/current`. 
 If you are using EasyEngine v4 then:
     1. Update the file: `/opt/easyengine/sites/example.com/config/nginx/conf.d/main.conf` and replace `/var/www/htdocs` with `/var/www/htdocs/current`
     2. Run `ee site reload example.com`.
 
-6. Move `wp-config.php` inside `htdocs` folder.
+5. Move `wp-config.php` inside `htdocs` folder.
 ```bash
 mv /opt/easyengine/example.com/app/wp-config.php /opt/easyengine/example.com/app/htdocs/wp-config.php 
 ```
