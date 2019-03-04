@@ -22,14 +22,11 @@ action "White Screen Test" {
 action "Deploy" {
   needs = ["White Screen Test"]
   uses = "rtCamp/github-actions-library/deploy@master"
-  secrets = ["VAULT_ADDR", "VAULT_TOKEN"]
+  secrets = ["VAULT_ADDR", "VAULT_GITHUB_TOKEN"]
 }
 
 action "Slack Notification" {
   needs = ["Deploy"]
   uses = "rtCamp/github-actions-library/notification/vault-slack@master"
-  env = {
-    SLACK_CHANNEL = "test"
-  }
-  secrets = ["VAULT_ADDR", "VAULT_TOKEN"]
+  secrets = ["VAULT_ADDR", "VAULT_GITHUB_TOKEN"]
 }
