@@ -21,7 +21,7 @@ git clone --depth=1 git@github.com:rtCamp/github-actions-wordpress-skeleton.git
         2. `wp-version` can be set to `latest` for latest released version. Or it can be pinned to a specified by setting a value like: `5.0.3`.
         3. Setup `slack_channel`, with the channel name you want to send notification to. If left empty, it will disable slack notifications.
 
-3. Update [GitHub secret](https://developer.github.com/actions/creating-workflows/storing-secrets/) and add `VAULT_ADDR` and `VAULT_TOKEN` secret. Please contact sys team for this step.
+3. Update [GitHub secret](https://developer.github.com/actions/creating-workflows/storing-secrets/) and add `VAULT_ADDR` and `VAULT_GITHUB_TOKEN` secret. TODO: Add steps on how to setup `VAULT_GITHUB_TOKEN`.
 
 **Note: Steps 4 and 5 are required, only if the site has not been created with `--public-dir=current` EasyEngine flag**
 
