@@ -32,7 +32,7 @@ If you are using EasyEngine v4 then:
 
 5. Move `wp-config.php` inside `htdocs` folder.
 ```bash
-mv /opt/easyengine/example.com/app/wp-config.php /opt/easyengine/example.com/app/htdocs/wp-config.php 
+mv /opt/easyengine/sites/example.com/app/wp-config.php /opt/easyengine/sites/example.com/app/htdocs/wp-config.php 
 ```
 
 ## Customize the actions
