@@ -25,14 +25,14 @@ git clone --depth=1 git@github.com:rtCamp/github-actions-wordpress-skeleton.git
 
 In case vault is not being used, you can also use `SSH_PRIVATE_KEY` [for deployment](https://github.com/rtCamp/action-wordpress-deploy#installation) and `SLACK_WEBHOOK` [for slack notification](https://github.com/rtCamp/action-slack-notify#installation) instead of `VAULT_ADDR` and `VAULT_TOKEN` secrets.
 
-**Note: Steps 4 and 5 are required, only if the site has not been created with `--public-dir=current` EasyEngine flag**
+**Note: Following steps are required, only if the site has not been created with `--public-dir=current` EasyEngine flag**
 
-4. Update nginx webroot of the site to point to `/var/www/htdocs/current`. 
+1. Update nginx webroot of the site to point to `/var/www/htdocs/current`. 
 If you are using EasyEngine v4 then:
     1. Update the file: `/opt/easyengine/sites/example.com/config/nginx/conf.d/main.conf` and replace `/var/www/htdocs` with `/var/www/htdocs/current`
     2. Run `ee site reload example.com`.
 
-5. Move `wp-config.php` inside `htdocs` folder.
+2. Move `wp-config.php` inside `htdocs` folder.
 ```bash
 mv /opt/easyengine/sites/example.com/app/wp-config.php /opt/easyengine/sites/example.com/app/htdocs/wp-config.php 
 ```
@@ -47,7 +47,7 @@ mv /opt/easyengine/sites/example.com/app/wp-config.php /opt/easyengine/sites/exa
 
 **Q:** How to run `composer install` for plugins in CI/CD setup?
 
-**A:** You can update the `deply.php` [as stated above](https://github.com/rtCamp/action-wordpress-deploy#customize-the-action), and add a task to run `composer install`. Or you can override `deploy.sh` by placing it location `.github/deploy/deploy.sh` and add `composer install` line [here](https://github.com/rtCamp/action-wordpress-deploy/blob/d07e406998515955b83fea87f7ed635647187489/deploy.sh#L85).
+**A:** You can update the `deploy.php` [as stated above](https://github.com/rtCamp/action-wordpress-deploy#customize-the-action), and add a task to run `composer install`. Or you can override `deploy.sh` by placing it location `.github/deploy/deploy.sh` and add `composer install` line [here](https://github.com/rtCamp/action-wordpress-deploy/blob/d07e406998515955b83fea87f7ed635647187489/deploy.sh#L85).
 
 ----
 
