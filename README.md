@@ -15,7 +15,7 @@ git clone --depth=1 git@github.com:rtCamp/github-actions-wordpress-skeleton.git
 ```
 
 2. Update `hosts.yml`
-    1. Update branch blocks with required branches and corresponding server details.
+    1. Update branch blocks with required branches and corresponding server details. Only the branches specified in `hosts.yml` will be deployed, rest will be filtered out.
     2. Update `ci_script_options` as per project needs.
         1. Setting `vip: true` will enable cloning of mu-plugins.
         2. `wp-version` can be set to `latest` for latest released version. Or it can be pinned to a specified by setting a value like: `5.0.3`.
