@@ -4,7 +4,7 @@ workflow "Deploy and Slack Notification" {
 }
 
 action "Run phpcs inspection" {
-  uses = "rtCamp/action-vip-go-ci@master"
+  uses = "rtCamp/action-phpcs@master"
   secrets = ["USER_GITHUB_TOKEN"]
 }
 
