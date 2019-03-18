@@ -19,9 +19,11 @@ git clone --depth=1 git@github.com:rtCamp/github-actions-wordpress-skeleton.git
     2. Update `ci_script_options` as per project needs.
         1. Setting `vip: true` will enable cloning of mu-plugins.
         2. `wp-version` can be set to `latest` for latest released version. Or it can be pinned to a specified by setting a value like: `5.0.3`.
-        3. Setup `slack_channel`, with the channel name you want to send notification to. If left empty, it will disable slack notifications.
+        3. Setup `slack-channel`, with the channel name you want to send notification to. If left empty, it will send slack notification to default webhook channel.
 
-3. Update [GitHub secret](https://developer.github.com/actions/creating-workflows/storing-secrets/) and add `VAULT_ADDR` and `VAULT_GITHUB_TOKEN` secret. TODO: Add steps on how to setup `VAULT_GITHUB_TOKEN`.
+3. Update [GitHub secret](https://developer.github.com/actions/creating-workflows/storing-secrets/) and add `VAULT_ADDR` and `VAULT_TOKEN` secret. For more information on how to setup vault and what should be the vaule of these secret variables check [vault for deployment](https://github.com/rtCamp/action-wordpress-deploy#vault) and [vault for slack notification](https://github.com/rtCamp/action-slack-notify#additional-vault-support).
+
+In case vault is not being used, you can also use `SSH_PRIVATE_KEY` [for deployment](https://github.com/rtCamp/action-wordpress-deploy#installation) and `SLACK_WEBHOOK` [for slack notification](https://github.com/rtCamp/action-slack-notify#installation) instead of `VAULT_ADDR` and `VAULT_TOKEN` secrets.
 
 **Note: Steps 4 and 5 are required, only if the site has not been created with `--public-dir=current` EasyEngine flag**
 
@@ -35,36 +37,28 @@ If you are using EasyEngine v4 then:
 mv /opt/easyengine/sites/example.com/app/wp-config.php /opt/easyengine/sites/example.com/app/htdocs/wp-config.php 
 ```
 
-## Customize the actions
-
-[GitHub actions library](https://github.com/rtCamp/github-actions-library) has the flexibility of customization to accomodate various scenarios.
-
-To customize any particular file in the action, follow the folder structure of the library inside `.github` folder. File inside `.github` folder will override the default file in the action.
-
-Example: If `deploy.php` needs to be customised, then in the library the file is present in `deploy` folder. So, placing it in location `.github/deploy/deploy.php` will override the one in action.
-
 ## FAQs
 
 **Q:** How to configure custom `deploy.php`?
 
-**A:** You can take a reference of [this deploy.php](https://github.com/rtCamp/github-actions-library/blob/master/deploy/deploy.php) and create similar `deploy.php` with additional configurations as per need and place it in location `.github/deploy/deploy.php`.
+**A:** Read the documentation on how to customize [deploy GitHub action](https://github.com/rtCamp/action-wordpress-deploy#customize-the-action).
 
 ----
 
 **Q:** How to run `composer install` for plugins in CI/CD setup?
 
-**A:** You can update the `deply.php` as stated above, and add a task to run `composer install`. Or you can override `deploy.sh` by placing it location `.github/deploy/deploy.sh` and add `composer install` line [here](https://github.com/rtCamp/github-actions-library/blob/7af8f915bfa9263e2241d8f0db42ab05804ec5a2/deploy/deploy.sh#L55).
+**A:** You can update the `deply.php` [as stated above](https://github.com/rtCamp/action-wordpress-deploy#customize-the-action), and add a task to run `composer install`. Or you can override `deploy.sh` by placing it location `.github/deploy/deploy.sh` and add `composer install` line [here](https://github.com/rtCamp/action-wordpress-deploy/blob/d07e406998515955b83fea87f7ed635647187489/deploy.sh#L85).
 
 ----
 
 **Q:** How to change phpcs inspections standards?
 
-**A:** Take [this phpcs.sh](https://raw.githubusercontent.com/rtCamp/github-actions-library/7af8f915bfa9263e2241d8f0db42ab05804ec5a2/inspections/codesniffer/phpcs.sh) as the base file and place it in location `.github/inspections/codesniffer/phpcs.sh`. Then, update [following lines](https://github.com/rtCamp/github-actions-library/blob/7af8f915bfa9263e2241d8f0db42ab05804ec5a2/inspections/codesniffer/phpcs.sh#L19-L24) to install standards according to the need of project.
+**A:** Create [phpcs.xml](https://github.com/rtCamp/github-actions-wordpress-skeleton/blob/master/phpcs.xml) with the standards and rulesets that you want the project to follow and put it in the root of your repo.
 
 ----
 
 **Q:** How to setup git repo for mu-plugins cloning for vip site?
 
-**A:** By default, if `vip: true` is setup in `hosts.yml`, then https://github.com/Automattic/vip-mu-plugins-public repo is cloned. If any other repo is required, then it can be setup as [env variable](https://github.com/rtCamp/github-actions-library/tree/7af8f915bfa9263e2241d8f0db42ab05804ec5a2/deploy#environment-variables-that-can-be-setup-in-the-github-actions) in action `Deploy` in `main.workflow` file. 
+**A:** By default, if `vip: true` is setup in [hosts.yml](https://github.com/rtCamp/github-actions-wordpress-skeleton/blob/c642c5076fe3ece90be9135e2e7373b8a77c0862/.github/hosts.yml#L43), then https://github.com/Automattic/vip-mu-plugins-public repo is cloned. If any other repo is required, then it can be setup as [env variable](https://github.com/rtCamp/action-wordpress-deploy#environment-variables) in action `Deploy` in `main.workflow` file. 
 
 ----
