@@ -4,13 +4,14 @@ workflow "Deploy and Slack Notification" {
 }
 
 action "Run phpcs inspection" {
-  uses = "rtCamp/action-phpcs@master"
-  secrets = ["USER_GITHUB_TOKEN"]
+  uses = "rtCamp/action-phpcs-code-review@master"
+  secrets = ["GH_BOT_TOKEN"]
+  args = ["WordPress,WordPress-Core,WordPress-Docs"]
 }
 
 action "Deploy" {
   needs = ["Run phpcs inspection"]
-  uses = "rtCamp/action-wordpress-deploy@master"
+  uses = "rtCamp/action-deploy-wordpress@master"
   secrets = ["VAULT_ADDR", "VAULT_TOKEN"]
 }
 
