@@ -1,6 +1,6 @@
-workflow "Deploy and Slack Notification" {
-  on = "push"
-  resolves = ["Slack Notification"]
+workflow "Inspections" {
+  on = "pull_request"
+  resolves = ["Run PHPCS inspection"]
 }
 
 action "Run PHPCS inspection" {
@@ -9,8 +9,12 @@ action "Run PHPCS inspection" {
   args = ["WordPress,WordPress-Core,WordPress-Docs"]
 }
 
+workflow "Deploy and Slack Notification" {
+  on = "push"
+  resolves = ["Slack Notification"]
+}
+
 action "Deploy" {
-  needs = ["Run PHPCS inspection"]
   uses = "rtCamp/action-deploy-wordpress@master"
   secrets = ["VAULT_ADDR", "VAULT_TOKEN"]
 }
