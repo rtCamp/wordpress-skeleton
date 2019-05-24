@@ -1,8 +1,8 @@
 <?php
 /**
- * Rtmedia config file.
+ * Config file
  *
- * This file can be used similarly we are using wp-config.php or vip-config.php file
+ * This file can be used similarly we are using wp-config.php or rt-config.php file
  * Example: We can for defining constant Keys for the API, Plugins etc. in this file.
  *
  * This file is loaded very early (immediately after `wp-config.php`), which means that most WordPress APIs,
