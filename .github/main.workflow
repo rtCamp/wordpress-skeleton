@@ -5,7 +5,7 @@ workflow "Inspections" {
 
 action "Run PHPCS inspection" {
   uses = "rtCamp/action-phpcs-code-review@master"
-  secrets = ["GH_BOT_TOKEN"]
+  secrets = ["VAULT_ADDR", "VAULT_TOKEN"]
   args = ["WordPress,WordPress-Core,WordPress-Docs"]
 }
 
