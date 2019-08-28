@@ -14,3 +14,7 @@ git clone --depth=1 git@github.com:rtCamp/wordpress-skeleton.git
 2. Push your local repo to GitHub.
 3. Update `hosts.yml` file to map GitHub branches to different server environment. Only the branches specified in `hosts.yml` will be deployed, rest will be filtered out.
 4. Create [GitHub Secrets](https://developer.github.com/actions/creating-workflows/storing-secrets/) for [each GitHub Action](https://github.com/rtCamp/github-actions-library#list-of-github-actions) you are planning to use.
+
+## Does this interest you?
+
+<a href="https://rtcamp.com/"><img src="https://rtcamp.com/wp-content/uploads/2019/04/github-banner@2x.png" alt="Join us at rtCamp, we specialize in providing high performance enterprise WordPress solutions"></a>
