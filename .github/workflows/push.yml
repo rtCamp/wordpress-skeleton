@@ -1,0 +1,24 @@
+on: 
+  push: 
+    branches: 
+      - master 
+      - develop 
+
+name: Deploy and Slack Notification
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Deploy
+      uses: rtCamp/action-deploy-wordpress@master
+      env:
+        VAULT_ADDR: ${{ secrets.VAULT_ADDR }}
+        VAULT_TOKEN: ${{ secrets.VAULT_TOKEN }}
+    - name: Slack Notification
+      uses: rtCamp/action-slack-notify@master
+      env:
+        SLACK_CHANNEL: test
+        VAULT_ADDR: ${{ secrets.VAULT_ADDR }}
+        VAULT_TOKEN: ${{ secrets.VAULT_TOKEN }}
