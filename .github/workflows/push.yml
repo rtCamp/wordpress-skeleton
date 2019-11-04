@@ -1,0 +1,27 @@
+on: 
+  push: 
+    branches: 
+      - master 
+      - develop 
+
+name: Deploy and Slack Notification
+jobs:
+  correctBranchFilter:
+    name: Correct branch filter
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Correct branch filter
+      uses: rtCamp/github-actions-library/bin/filter@master
+    - name: Run phpcs inspection
+      uses: rtCamp/github-actions-library/inspections/codesniffer@master
+    - name: Deploy
+      uses: rtCamp/github-actions-library/deploy@master
+      env:
+        VAULT_ADDR: ${{ secrets.VAULT_ADDR }}
+        VAULT_GITHUB_TOKEN: ${{ secrets.VAULT_GITHUB_TOKEN }}
+    - name: Slack Notification
+      uses: rtCamp/github-actions-library/notification/vault-slack@master
+      env:
+        VAULT_ADDR: ${{ secrets.VAULT_ADDR }}
+        VAULT_GITHUB_TOKEN: ${{ secrets.VAULT_GITHUB_TOKEN }}
