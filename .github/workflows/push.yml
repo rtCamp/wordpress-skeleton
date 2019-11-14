@@ -12,13 +12,13 @@ jobs:
     steps:
     - uses: actions/checkout@master
     - name: Deploy
-      uses: rtCamp/action-deploy-wordpress@master
+      uses: docker://rtCamp/action-deploy-wordpress:master
       env:
         VAULT_ADDR: ${{ secrets.VAULT_ADDR }}
         VAULT_TOKEN: ${{ secrets.VAULT_TOKEN }}
         WP_VERSION: 5.3
     - name: Slack Notification
-      uses: rtCamp/action-slack-notify@master
+      uses: docker://rtCamp/action-slack-notify:master
       env:
         SLACK_CHANNEL: test
         VAULT_ADDR: ${{ secrets.VAULT_ADDR }}
