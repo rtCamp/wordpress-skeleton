@@ -7,8 +7,7 @@
 |   |   |-- bug_report.md
 |   |   `-- feature_request.md
 |   |
-|   |-- PULL_REQUEST_TEMPLATE
-|   |   `-- pull_request_template.md
+|   |-- pull_request_template.md
 |   |
 |   |-- hosts.yml
 |   `-- workflows
@@ -51,8 +50,7 @@ Contains issue template, PR template and GitHub actions.
     i. `bug_report.md` - Standardized template to report a bug. Will contain all details and checklists to be added in issue.
     ii. `feature_request.md` - Standardized template to create a feature request.
 
-2. `PULL_REQUEST_TEMPLATE` - Contains PR template.
-    i. `pull_request_template.md` - Standardized template for generating a PR. Many times PRs are created without any notes or issue references. This will take care to remind a dev about all the necessary things to write in description while opening a PR.
+2. `pull_request_template.md` - Standardized template for generating a PR. Many times PRs are created without any notes or issue references. This will take care to remind a dev about all the necessary things to write in description while opening a PR.
 
 Both the templates aim to minimize the slack threads, calls and discussion due to lack of information in issues and PRs.
 
