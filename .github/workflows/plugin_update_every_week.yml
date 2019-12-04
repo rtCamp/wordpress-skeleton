@@ -13,5 +13,6 @@ jobs:
     - name: WP plugin auto update
       uses: docker://rtcamp/action-plugin-update:master
       env:
-        WP_BOT_TOKEN: ${{ secrets.WP_BOT_TOKEN }}
         REFERENCE_BRANCH: "develop"
+        VAULT_ADDR: ${{ secrets.VAULT_ADDR }}
+        VAULT_TOKEN: ${{ secrets.VAULT_TOKEN }}
