@@ -1,20 +1,83 @@
-# WordPress Skeleton
+# Project Name / sitename.tld
 
-This repo is used as a base for setting up CI/CD using GitHub Actions for new or existing projects. It uses [rtCamp's GitHub Actions Library](https://github.com/rtCamp/github-actions-library).
+Project description and short intro goes here.
 
-`.github` folder in the repository contains the main CI/CD scripts.
+## Environments
 
-## Usage
+| Environment | Branch  | URL                          |
+|-------------|---------|------------------------------|
+| Production  | master  | https://example.com          |
+| Staging     | staging | https://staging.example.com  |
+| Development | develop | https://dev.example.com      |
 
-1. Setup your repo according to the skeleton strucutre of this repo. In case of fresh projects, you can start with a direct clone of this repo. For existing projects you can take the `.github` folder manually.
+## Maintainer
 
-```bash
-git clone --depth=1 git@github.com:rtCamp/wordpress-skeleton.git
-```
-2. Push your local repo to GitHub.
-3. Update `hosts.yml` file to map GitHub branches to different server environment. Only the branches specified in `hosts.yml` will be deployed, rest will be filtered out.
-4. Create [GitHub Secrets](https://developer.github.com/actions/creating-workflows/storing-secrets/) for [each GitHub Action](https://github.com/rtCamp/github-actions-library#list-of-github-actions) you are planning to use.
+### rtCamp Maintainers:
 
-## Does this interest you?
+| Name                    | Github Username   |
+|-------------------------|-------------------|
+| [Name](mailto:email-id) |  @github_username |
 
-<a href="https://rtcamp.com/"><img src="https://rtcamp.com/wp-content/uploads/2019/04/github-banner@2x.png" alt="Join us at rtCamp, we specialize in providing high performance enterprise WordPress solutions"></a>
+### Client Representative: (if any)
+
+| Name                    | Github Username   |
+|-------------------------|-------------------|
+| [Name](mailto:email-id) |  @github_username |
+
+## Development Workflow
+
+### Default Branch
+
+`master`
+
+### Branch naming convention
+
+- For bug - `fix/issue-number` For example, `fix/GH-3`
+- For feature - `feature/issue-number` For example, `feature/GH-3`
+
+### Pull Request and issue notes
+
+- Title should be same as Issue title. Also add issue number before title. For example, `GH-3 Setup initial theme`.
+- Add proper description.
+- Assign reviewer.
+- Create draft pull request for work in-progress PR and don't add `WIP:` in PR title.
+- PR should have one approval.
+
+### Testing
+
+List down tests created for the project and details on how to execute them locally.
+
+- PHP Unit tests if any.
+- Behat tests if any.
+- GitHub actions/travis/circleci etc. CI test cases if any.
+
+### Linting
+
+Notes about linting to be followed in project.
+
+## Project Management tool details
+
+Add details about JIRA / AC / GitHub project in use.
+
+## Env/project specific Customization
+
+Example: Plugin settings that need to be updated in dev/staging sites.
+
+| Title                                                     | Name                         | Disable on dev site? | Notes                   |
+|-----------------------------------------------------------|------------------------------|----------------------|-------------------------|
+| Jetpack by WordPress.com                                  | jetpack                      | No                   | Enable Jetpack Dev Mode |
+| AWS SES wp_mail drop-in                                   | aws-ses-wp-mail              | No                   | Check that `AWS_SES_MAIL_*` constants are not present in wp-config     |
+
+## Repo integrations
+
+Add details of apps and integrations installed for the repo.
+
+## Meta
+
+### Repo Setup Guide
+
+If you are setting up the repo, read: [REPO-SETUP-GUIDE.md](./REPO-SETUP-GUIDE.md)
+
+### Skeleton Guide
+
+Please read the skeleton repo guide to understand the structure of repo: [SKELETON-GUIDE.md](./SKELETON-GUIDE.md)
