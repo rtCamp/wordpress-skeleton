@@ -1,5 +1,9 @@
 # Repo Setup Guide
 
+## Creating repo with wordpress-skeleton template
+
+![WordPress-Skeleton Template for repo creation](https://user-images.githubusercontent.com/25586785/70203131-efb2b180-1741-11ea-9bb4-3e7790bf3832.png)
+
 ## Adding description and what to add in it
 
 GitHub repo description should have a short brief about the repo and site url if applicable.
