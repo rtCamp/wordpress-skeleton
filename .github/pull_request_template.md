@@ -1,6 +1,6 @@
 **IMPORTANT: Please do not create a Pull Request without creating an issue first.**
 
-<!-- Make sure to add issue no in Title. -->
+<!-- Make sure to add issue number in Title. -->
 
 ## Types of changes
 
