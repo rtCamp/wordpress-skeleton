@@ -57,7 +57,7 @@ Notes about linting to be followed in project.
 
 ## Project Management tool details
 
-Add details about JIRA / AC / GitHub project in use.
+Add details about JIRA / ActiveCollab / GitHub project in use.
 
 ## Env/project specific Customization
 

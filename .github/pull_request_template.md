@@ -15,7 +15,7 @@ _Put an `x` in the boxes that apply_
 ## Details
 
 - How this issue fixed/resolved
-- Feature impleted
+- Feature implemented
 
 ## Checklist
 
