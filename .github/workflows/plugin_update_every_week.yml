@@ -1,0 +1,18 @@
+on:
+  schedule:
+    - cron:  '0 0 * * 0'
+name: WP Plugin Auto Update
+jobs:
+  WPAutoUpdate:
+    name: WP plugin auto update
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+      with:
+        ref: "develop"
+    - name: WP plugin auto update
+      uses: docker://rtcamp/action-plugin-update:master
+      env:
+        REFERENCE_BRANCH: "develop"
+        VAULT_ADDR: ${{ secrets.VAULT_ADDR }}
+        VAULT_TOKEN: ${{ secrets.VAULT_TOKEN }}
