@@ -2,11 +2,10 @@
 <ruleset name="">
 	<description>Generally-applicable sniffs for WordPress plugins</description>
 
-	<rule ref="WordPress-Core">
+	<rule ref="WordPress">
 		<exclude name="WordPress.Files.FileName.NotHyphenatedLowercase" />
+		<exclude name="WordPress.Files.FileName.InvalidClassFileName" />
 	</rule>
-
-	<rule ref="WordPress-Docs" />
 
 	<rule ref="PHPCompatibility"/>
 	<config name="testVersion" value="7.0-"/>
