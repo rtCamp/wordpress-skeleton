@@ -4,11 +4,11 @@ Project description and short intro goes here.
 
 ## Environments
 
-| Environment | Branch  | URL                          |
-|-------------|---------|------------------------------|
-| Production  | master  | https://example.com          |
-| Staging     | staging | https://staging.example.com  |
-| Development | develop | https://dev.example.com      |
+| Environment | Branch  | URL                          | Hostname            |
+|-------------|---------|------------------------------|---------------------|
+| Production  | master  | https://example.com          | prod.example.com    |
+| Staging     | staging | https://staging.example.com  | staging.example.com |
+| Development | develop | https://dev.example.com      | dev.example.com     |
 
 ## Maintainer
 
