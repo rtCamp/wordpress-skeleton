@@ -8,6 +8,7 @@ name: Deploy and Slack Notification
 jobs:
   deploy:
     name: Deploy
+    # Change below line to: `runs-on: ubuntu-latest` if not using self-hosted runners or if it is a public repo.
     runs-on: self-hosted
     steps:
     - uses: actions/checkout@v2
