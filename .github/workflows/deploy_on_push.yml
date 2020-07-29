@@ -24,3 +24,5 @@ jobs:
         SLACK_CHANNEL: test
         VAULT_ADDR: ${{ secrets.VAULT_ADDR }}
         VAULT_TOKEN: ${{ secrets.VAULT_TOKEN }}
+    - name: Cleanup
+      uses: rtCamp/action-cleanup@master
