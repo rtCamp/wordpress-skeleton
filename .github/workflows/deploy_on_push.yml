@@ -25,4 +25,5 @@ jobs:
         VAULT_ADDR: ${{ secrets.VAULT_ADDR }}
         VAULT_TOKEN: ${{ secrets.VAULT_TOKEN }}
     - name: Cleanup
+      if: ${{ always() }}
       uses: rtCamp/action-cleanup@master
