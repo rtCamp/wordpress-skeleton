@@ -17,7 +17,7 @@ jobs:
       env:
         VAULT_ADDR: ${{ secrets.VAULT_ADDR }}
         VAULT_TOKEN: ${{ secrets.VAULT_TOKEN }}
-        WP_VERSION: 5.4.2
+        WP_VERSION: 5.5
     - name: Slack Notification
       uses: rtCamp/action-slack-notify@master
       env:
