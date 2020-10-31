@@ -32,8 +32,8 @@ Project description and short intro goes here.
 
 ### Branch naming convention
 
-- For bug - `fix/issue-number` For example, `fix/GH-3`
-- For feature - `feature/issue-number` For example, `feature/GH-3`
+- For bug - `fix/issue-name` For example, `fix/phpcs-errors`
+- For feature - `feature/issue-name` For example, `feature/add-plugin`
 
 ### Pull Request and issue notes
 
