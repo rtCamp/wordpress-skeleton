@@ -8,7 +8,7 @@
 	</rule>
 
 	<rule ref="PHPCompatibility"/>
-	<config name="testVersion" value="7.0-"/>
+	<config name="testVersion" value="7.4-"/>
 
 	<arg name="extensions" value="php"/>
 	<arg value="s"/>
