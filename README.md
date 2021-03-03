@@ -6,7 +6,7 @@ Project description and short intro goes here.
 
 | Environment | Branch  | URL                          | Hostname            |
 |-------------|---------|------------------------------|---------------------|
-| Production  | master  | https://example.com          | prod.example.com    |
+| Production  | main  | https://example.com          | prod.example.com    |
 | Staging     | staging | https://staging.example.com  | staging.example.com |
 | Development | develop | https://dev.example.com      | dev.example.com     |
 
@@ -28,7 +28,7 @@ Project description and short intro goes here.
 
 ### Default Branch
 
-`master`
+`main`
 
 ### Branch naming convention
 

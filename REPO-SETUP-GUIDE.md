@@ -24,7 +24,7 @@ Guide on how to add topics: https://help.github.com/en/github/administering-a-re
 
 Branch protection rules should be added to the main branches of the project. It is also necessary to add branch protection rules when adding branch delete mechanism by default as described below, so that these default and main branches are not deleted. 
 
-A good startpoint is to protect `master`, `staging`, `develop`, `qa`, `testing`.
+A good startpoint is to protect `main`, `staging`, `develop`, `qa`, `testing`.
 Any branch other than protected branch should be created according to branch naming guidelines given in project readme.
 
 Guide to enable branch protection: https://help.github.com/en/enterprise/2.16/admin/developer-workflow/configuring-protected-branches-and-required-status-checks#enabling-a-protected-branch-for-a-repository
@@ -35,7 +35,7 @@ Branches other than protected branches should be removed as soon as their work i
 
 Guide to setup auto deletion of merged branches: https://help.github.com/en/github/administering-a-repository/managing-the-automatic-deletion-of-branches
 
-Please note: This will delete any branch other than protected branches that is merged via PR against any branch. If you want to delete branches that should deleted only if a PR is merged against `master`. Then that will be a seprate integration. Contact sys team for it until it's setup instructions are added here.
+Please note: This will delete any branch other than protected branches that is merged via PR against any branch. If you want to delete branches that should deleted only if a PR is merged against `main`. Then that will be a seprate integration. Contact sys team for it until it's setup instructions are added here.
 
 ## How to configure and tweak GitHub actions
 

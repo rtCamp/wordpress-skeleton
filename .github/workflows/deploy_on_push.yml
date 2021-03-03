@@ -1,8 +1,8 @@
-on: 
-  push: 
-    branches: 
-      - master 
-      - develop 
+on:
+  push:
+    branches:
+      - main
+      - develop
 
 name: Deploy and Slack Notification
 jobs:
