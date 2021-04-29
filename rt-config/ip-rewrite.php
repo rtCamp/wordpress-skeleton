@@ -35,7 +35,7 @@ class rt_IP_Rewrite {
 		'2a06:98c0::/29'
 	);
 
-    /**
+	/**
 	 * Is a request from CloudFlare?
 	 * @return bool
 	 */
