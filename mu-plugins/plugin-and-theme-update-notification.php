@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: Plugin Update Notification
+ * Plugin Name: Plugin and Theme Update Notification
  * Author: rtCamp, Chandra Patel, Rutvik Savsani
  * Description: Extension to show notification's for themes and plugins when `DISALLOW_FILE_MODS` is true.
  *
