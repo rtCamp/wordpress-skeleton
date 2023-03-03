@@ -4,7 +4,7 @@ jobs:
   runPHPCSInspection:
     name: Run PHPCS inspection
     # Change below line to: `runs-on: ubuntu-latest` if not using self-hosted runners or if it is a public repo.
-    runs-on: self-hosted
+    runs-on: rt.gw
     steps:
     - uses: actions/checkout@v2
       with:
