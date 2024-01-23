@@ -11,12 +11,12 @@ jobs:
     # Change below line to: `runs-on: ubuntu-latest` if not using self-hosted runners or if it is a public repo.
     runs-on: self-hosted
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     - name: Deploy
       uses: rtCamp/action-deploy-wordpress@master
       env:
         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-        WP_VERSION: 5.8
+        WP_VERSION: 6.4.2
     - name: Slack Notification
       uses: rtCamp/action-slack-notify@master
       env:
