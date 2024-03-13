@@ -14,8 +14,10 @@
 // Disable updates for theme and plugin.
 define( 'DISALLOW_FILE_MODS', true );
 
+require_once __DIR__ . '/ip-rewrite.php';
+
 // Set IP from Cloudflare to RealIP in site health.
-if ( isset( $_SERVER['HTTP_CF_CONNECTING_IP'] ) ) {
+if ( rt_IP_Rewrite::isCloudFlare() ) {
 	$_SERVER['REMOTE_ADDR']    = $_SERVER['HTTP_CF_CONNECTING_IP'];
 	$_SERVER['HTTP_X_REAL_IP'] = $_SERVER['HTTP_CF_CONNECTING_IP'];
 }
