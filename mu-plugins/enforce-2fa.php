@@ -18,6 +18,31 @@ if ( ! defined( 'ABSPATH' ) ) {
 add_filter( 'two_factor_user_api_login_enable', '__return_false', 1 ); // Hook in early to allow overrides.
 
 /**
+ * Should Force 2FA.
+ *
+ * @return bool
+ */
+function e2fa_should_force_two_factor() {
+
+	return true;
+}
+
+/**
+ * Check if 2FA is forced.
+ *
+ * @return bool
+ */
+function e2fa_is_two_factor_forced() {
+
+	// If we're not forcing 2FA, return early.
+	if ( ! e2fa_should_force_two_factor() ) {
+		return false;
+	}
+
+	return apply_filters( 'e2fa_is_two_factor_forced', false );
+}
+
+/**
  * Force 2FA.
  */
 function e2fa_enforce_two_factor_plugin() {
@@ -27,6 +52,15 @@ function e2fa_enforce_two_factor_plugin() {
 
 		$cap     = apply_filters( 'two_factor_enforcement_cap', 'manage_options' );
 		$limited = current_user_can( $cap );
+
+		// Calculate current_user_can outside map_meta_cap to avoid callback loop.
+		add_filter(
+			'e2fa_is_two_factor_forced',
+			function () use ( $limited ) {
+				return $limited;
+			},
+			9
+		);
 	}
 }
 
