@@ -17,6 +17,110 @@ if ( ! defined( 'ABSPATH' ) ) {
 // Do not allow API requests from 2fa users.
 add_filter( 'two_factor_user_api_login_enable', '__return_false', 1 ); // Hook in early to allow overrides.
 
+// muplugins_loaded fires before cookie constants are set.
+if ( is_multisite() ) {
+	ms_cookie_constants();
+}
+
+// Set the cookie constants if not set.
+wp_cookie_constants();
+
+// Define the cookies for Jetpack SSO.
+define( 'E2FA_IS_JETPACK_SSO_COOKIE', AUTH_COOKIE . '_e2fa_jetpack_sso' );
+define( 'E2FA_IS_JETPACK_SSO_2SA_COOKIE', AUTH_COOKIE . '_e2fa_jetpack_sso_2sa' );
+
+// Set the cookies when the user logs in.
+add_action(
+	'jetpack_sso_handle_login',
+	function ( $user, $user_data ) {
+
+		add_action(
+			'set_auth_cookie',
+			function ( $auth_cookie, $expire, $expiration, $user_id, $scheme, $token ) use ( $user_data ) {
+
+				// Check if the site is secure.
+				$secure = is_ssl();
+
+				// Set the cookies for Jetpack SSO.
+				$sso_cookie = wp_generate_auth_cookie( $user_id, $expire, 'secure_auth', $token );
+				setcookie( E2FA_IS_JETPACK_SSO_COOKIE, $sso_cookie, $expire, COOKIEPATH, COOKIE_DOMAIN, $secure, true );
+
+				// Set the cookies for Jetpack SSO 2SA.
+				if ( $user_data->two_step_enabled ) {
+
+					// Set the cookies for Jetpack SSO 2SA.
+					$sso_2sa_cookie = wp_generate_auth_cookie( $user_id, $expire, 'secure_auth', $token );
+					setcookie( E2FA_IS_JETPACK_SSO_2SA_COOKIE, $sso_2sa_cookie, $expire, COOKIEPATH, COOKIE_DOMAIN, $secure, true );
+				}
+			},
+			10,
+			6
+		);
+	},
+	10,
+	2
+);
+
+// Clear the cookies when the user logs out.
+add_action(
+	'clear_auth_cookie',
+	function () {
+
+		if ( ! headers_sent() ) {
+
+			// Clear the cookies for Jetpack SSO.
+			setcookie( E2FA_IS_JETPACK_SSO_COOKIE, ' ', time() - YEAR_IN_SECONDS, COOKIEPATH, COOKIE_DOMAIN );
+
+			// Clear the cookies for Jetpack SSO 2SA.
+			setcookie( E2FA_IS_JETPACK_SSO_2SA_COOKIE, ' ', time() - YEAR_IN_SECONDS, COOKIEPATH, COOKIE_DOMAIN );
+		}
+	}
+);
+
+/**
+ * Check if the user is logged in with Jetpack SSO.
+ *
+ * @return bool
+ */
+function e2fa_is_jetpack_sso() {
+
+	// If the user is not logged in, return early.
+	if ( ! is_user_logged_in() ) {
+		return false;
+	}
+
+	// If the user is not logged in with Jetpack SSO, return early.
+	if ( ! isset( $_COOKIE[ E2FA_IS_JETPACK_SSO_COOKIE ] ) ) {
+		return false;
+	}
+
+	// Check if the user is logged in with Jetpack SSO.
+	$cookie = sanitize_text_field( wp_unslash( $_COOKIE[ E2FA_IS_JETPACK_SSO_COOKIE ] ) );
+	return wp_validate_auth_cookie( $cookie, 'secure_auth' );
+}
+
+/**
+ * Check if the user is logged in with Jetpack SSO and has 2SA enabled.
+ *
+ * @return bool
+ */
+function e2fa_is_jetpack_sso_two_step() {
+
+	// If the user is not logged in, return early.
+	if ( ! e2fa_is_jetpack_sso() ) {
+		return false;
+	}
+
+	// If the user is not logged in with Jetpack SSO 2SA, return early.
+	if ( ! isset( $_COOKIE[ E2FA_IS_JETPACK_SSO_2SA_COOKIE ] ) ) {
+		return false;
+	}
+
+	// Check if the user is logged in with Jetpack SSO 2SA.
+	$cookie = sanitize_text_field( wp_unslash( $_COOKIE[ E2FA_IS_JETPACK_SSO_2SA_COOKIE ] ) );
+	return wp_validate_auth_cookie( $cookie, 'secure_auth' );
+}
+
 /**
  * Should Force 2FA.
  *
@@ -39,8 +143,81 @@ function e2fa_should_force_two_factor() {
 		return false;
 	}
 
+	// Don't force 2FA for Jetpack SSO users that have Two-step enabled.
+	if ( e2fa_is_jetpack_sso_two_step() ) {
+		return false;
+	}
+
+	// If it's a request attempting to connect a local user to a WordPress.com user via XML-RPC or REST, allow it through.
+	if ( e2fa_is_jetpack_authorize_request() ) {
+		return false;
+	}
+
 	return true;
 }
+
+/**
+ * Check if the current request is a Jetpack REST API request.
+ *
+ * @return bool
+ */
+function e2fa_is_jetpack_authorize_request() {
+
+	return (
+		// XML-RPC Jetpack authorize request
+		// This works with the classic core XML-RPC endpoint, but not
+		// Jetpack's alternate endpoint.
+		defined( 'XMLRPC_REQUEST' ) && XMLRPC_REQUEST
+		&& isset( $_GET['for'] ) && 'jetpack' === $_GET['for']  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		&& isset( $GLOBALS['wp_xmlrpc_server'], $GLOBALS['wp_xmlrpc_server']->message, $GLOBALS['wp_xmlrpc_server']->message->methodName )
+		&& 'jetpack.remoteAuthorize' === $GLOBALS['wp_xmlrpc_server']->message->methodName
+	) || (
+		// REST Jetpack authorize request.
+		defined( 'REST_REQUEST' ) && REST_REQUEST
+		&& isset( $GLOBALS['wp_rest_server'] )
+		&& e2fa_is_jetpack_authorize_rest_request()
+	);
+}
+
+/**
+ * Setter/Getter to keep track of whether the current request is a REST
+ * API request for /jetpack/v4/remote_authorize request that connects a
+ * WordPress.com user to a local user.
+ *
+ * @param bool|null $set Set the value of the flag.
+ */
+function e2fa_is_jetpack_authorize_rest_request( $set = null ) {
+
+	static $is_jetpack_authorize_rest_request = false;
+	if ( ! is_null( $set ) ) {
+		$is_jetpack_authorize_rest_request = $set;
+	}
+
+	return $is_jetpack_authorize_rest_request;
+}
+
+/**
+ * Hooked to the `rest_request_before_callbacks` filter to keep track of
+ * whether the current request is a REST API request for
+ * /jetpack/v4/remote_authorize request that connects WordPress.com user
+ * to a local user.
+ *
+ * @param WP_HTTP_Response $response The response object.
+ * @param array            $handler  The request handler.
+ *
+ * @return WP_HTTP_Response - it's attached to a filter.
+ */
+function e2fa_is_jetpack_authorize_rest_request_hook( $response, $handler ) {
+
+	// If the request is for /jetpack/v4/remote_authorize, set the flag.
+	if ( isset( $handler['callback'] ) && 'Jetpack_Core_Json_Api_Endpoints::remote_authorize' === $handler['callback'] ) {
+		e2fa_is_jetpack_authorize_rest_request( true );
+	}
+	return $response;
+}
+
+// Hook to keep track of whether the current request is a REST API request for /jetpack/v4/remote_authorize request that connects a WordPress.com user to a local user.
+add_filter( 'rest_request_before_callbacks', 'e2fa_is_jetpack_authorize_rest_request_hook', 10, 2 );
 
 /**
  * Check if 2FA is forced.
@@ -88,6 +265,8 @@ if ( ! defined( 'WP_INSTALLING' ) ) {
 
 /**
  * Enable 2FA Plugin.
+ *
+ * @return void
  */
 function e2fa_enable_two_factor_plugin() {
 
