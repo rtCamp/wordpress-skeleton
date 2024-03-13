@@ -8,3 +8,11 @@
  *
  * @package Enforce_2FA
  */
+
+// Prevent direct access to this file.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+// Do not allow API requests from 2fa users.
+add_filter( 'two_factor_user_api_login_enable', '__return_false', 1 ); // Hook in early to allow overrides.
