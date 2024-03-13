@@ -153,7 +153,37 @@ function e2fa_should_force_two_factor() {
 		return false;
 	}
 
+	// Allow custom SSO solutions.
+	if ( e2fa_use_custom_sso() ) {
+		return false;
+	}
+
 	return true;
+}
+
+/**
+ * Use Custom SSO.
+ *
+ * @return bool
+ */
+function e2fa_use_custom_sso() {
+
+	$custom_sso_enabled = apply_filters( 'e2fa_use_custom_sso', null );
+	if ( null !== $custom_sso_enabled ) {
+		return $custom_sso_enabled;
+	}
+
+	// Check for OneLogin SSO.
+	if ( function_exists( 'is_saml_enabled' ) && is_saml_enabled() ) {
+		return true;
+	}
+
+	// Check for SimpleSaml.
+	if ( function_exists( '\HumanMade\SimpleSaml\instance' ) && \HumanMade\SimpleSaml\instance() ) {
+		return true;
+	}
+
+	return false;
 }
 
 /**
