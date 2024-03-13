@@ -70,3 +70,26 @@ if ( ! defined( 'WP_INSTALLING' ) ) {
 	// Enable the two-factor plugin after all mu-plugins have been loaded.
 	add_action( 'muplugins_loaded', 'e2fa_enable_two_factor_plugin' );
 }
+
+/**
+ * Enable 2FA Plugin.
+ */
+function e2fa_enable_two_factor_plugin() {
+
+	// If the two-factor plugin is not enabled, return early.
+	$enable_two_factor = apply_filters( 'enable_two_factor', true );
+	if ( true !== $enable_two_factor ) {
+		return;
+	}
+
+	// If the two-factor plugin is not installed, return early.
+	if ( file_exists( WP_PLUGIN_DIR . '/two-factor/two-factor.php' ) ) {
+
+		// Load the two-factor plugin.
+		require_once ABSPATH . 'wp-admin/includes/plugin.php';
+		if ( ! is_plugin_active( 'two-factor/two-factor.php' ) ) {
+			activate_plugin( 'two-factor/two-factor.php' );
+		}
+		add_action( 'set_current_user', 'e2fa_enforce_two_factor_plugin' );
+	}
+}
