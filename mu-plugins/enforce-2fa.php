@@ -293,6 +293,9 @@ function e2fa_enforce_two_factor_plugin() {
 				return $is_user_using_two_factor;
 			}
 		);
+
+		// Show admin notice, if user is not using 2FA.
+		add_action( 'admin_notices', 'e2fa_two_factor_admin_notice' );
 	}
 }
 
@@ -326,4 +329,55 @@ function e2fa_enable_two_factor_plugin() {
 		}
 		add_action( 'set_current_user', 'e2fa_enforce_two_factor_plugin' );
 	}
+}
+
+/**
+ * Ristrict block editor screen.
+ *
+ * @return bool
+ */
+function e2fa_should_show_notice_on_current_screen() {
+
+	$screen = get_current_screen();
+
+	// Don't show on the "Edit Post" screen as it interferes with the Block Editor.
+	if ( $screen->is_block_editor() ) {
+		return false;
+	}
+
+	return true;
+}
+
+/**
+ * Admin Notice for 2FA.
+ *
+ * @return void
+ */
+function e2fa_two_factor_admin_notice() {
+
+	// If 2FA is not forced, return early.
+	if ( ! e2fa_is_two_factor_forced() ) {
+		return;
+	}
+
+	if ( ! e2fa_should_show_notice_on_current_screen() ) {
+		return;
+	}
+
+	?>
+	<div id="e2fa-error" class="notice-error wrap clearfix" style="align-items: center;background: #ffffff;border-left-width:4px;border-left-style:solid;border-radius: 6px;display: flex;margin-top: 30px;padding: 30px;line-height: 2em;">
+			<div class="dashicons dashicons-warning" style="display:flex;float:left;margin-right:2rem;font-size:38px;align-items:center;margin-left:-20px;color:#ffb900;"></div>
+			<div>
+				<p style="font-weight:bold; font-size:16px;">Two Factor Authentication is required to edit content on this site.</p>
+
+				<p>For the safety and security of this site, your account access has been downgraded. Please enable two-factor authentication to restore your access.</p>
+
+				<p>
+					<a href="<?php echo esc_url( admin_url( 'profile.php#two-factor-options' ) ); ?>" class="button button-primary">
+						Enable Two-factor Authentication
+					</a>
+				</p>
+			</div>
+	</div>
+	<?php
 }
