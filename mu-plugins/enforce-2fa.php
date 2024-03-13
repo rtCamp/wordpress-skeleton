@@ -283,6 +283,16 @@ function e2fa_enforce_two_factor_plugin() {
 			},
 			9
 		);
+
+		// If the user is not using 2FA, force them to use it.
+		$is_user_using_two_factor = Two_Factor_Core::is_user_using_two_factor();
+
+		add_filter(
+			'is_user_using_two_factor',
+			function () use ( $is_user_using_two_factor ) {
+				return $is_user_using_two_factor;
+			}
+		);
 	}
 }
 
