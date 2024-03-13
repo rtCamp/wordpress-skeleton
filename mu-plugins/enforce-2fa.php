@@ -296,6 +296,9 @@ function e2fa_enforce_two_factor_plugin() {
 
 		// Show admin notice, if user is not using 2FA.
 		add_action( 'admin_notices', 'e2fa_two_factor_admin_notice' );
+
+		// Filter the user's capabilities to remove the ones that would allow them to bypass 2FA.
+		add_filter( 'map_meta_cap', 'e2fa_two_factor_filter_caps', 0, 4 );
 	}
 }
 
@@ -329,6 +332,58 @@ function e2fa_enable_two_factor_plugin() {
 		}
 		add_action( 'set_current_user', 'e2fa_enforce_two_factor_plugin' );
 	}
+}
+
+/**
+ * Filter Caps
+ *
+ * Remove caps for users without two-factor enabled so they are treated as a Contributor.
+ *
+ * @param array  $caps    The user's actual capabilities.
+ * @param string $cap     Capability name.
+ * @param int    $user_id The user ID.
+ * @param array  $args    Adds the context to the cap. Typically the object ID.
+ *
+ * @return array
+ */
+function e2fa_two_factor_filter_caps( $caps, $cap, $user_id, $args ) {
+
+	if ( e2fa_is_two_factor_forced() ) {
+		// Use a hard-coded list of caps that give just enough access to set up 2FA.
+		$subscriber_caps = array(
+			'read',
+			'level_0',
+		);
+
+		// You can edit your own user account (required to set up 2FA).
+		if ( 'edit_user' === $cap && ! empty( $args ) && (int) $user_id === (int) $args[0] ) {
+			$subscriber_caps[] = 'edit_user';
+		}
+
+		// WooCommerce caps to check.
+		$woocommerce_caps = array(
+			'edit_posts',
+			'manage_woocommerce',
+			'view_admin_dashboard',
+		);
+
+		// Track whether or not we've already granted this user wp-admin access based on WC standards.
+		static $user_should_have_wc_admin_access = false;
+
+		// If we haven't granted access yet, and this $cap is a WC cap to check.
+		if ( ! $user_should_have_wc_admin_access && in_array( $cap, $woocommerce_caps, true ) ) {
+
+			// If this user has this $cap and it's `true`, grant this user wp-admin access.
+			if ( isset( wp_get_current_user()->allcaps[ $cap ] ) && true === wp_get_current_user()->allcaps[ $cap ] ) {
+				$user_should_have_wc_admin_access = true;
+				add_filter( 'woocommerce_prevent_admin_access', '__return_false' );
+			}
+		}
+		if ( ! in_array( $cap, $subscriber_caps, true ) ) {
+			return array( 'do_not_allow' );
+		}
+	}
+	return $caps;
 }
 
 /**
