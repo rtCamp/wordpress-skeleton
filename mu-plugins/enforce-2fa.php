@@ -1,12 +1,13 @@
 <?php
 /**
  * Plugin Name: Enforce 2FA
- * Description: This is mu-plugin to enforce every user to enable 2FA
- * Author:      Shub
+ * Description: Enforce Two-Factor Authentication for WordPress.
+ * Author:      rtCamp
  * License:     GNU General Public License v3 or later
  * License URI: http://www.gnu.org/licenses/gpl-3.0.html
+ * Version:     1.0
  *
- * @package Enforce_2FA
+ * @package Two_Factor\Enforce_2FA
  */
 
 // Prevent direct access to this file.
@@ -130,7 +131,7 @@ function e2fa_should_force_two_factor() {
 
 	// Fallout, if Localhost.
 	if ( 'local' === wp_get_environment_type() || ( isset( $_SERVER['HTTP_HOST'] ) && in_array( $_SERVER['HTTP_HOST'], array( 'localhost', '127.0.0.1', '[::1]', '192.168.0.1', '192.168.1.1' ), true ) ) ) {
-		return false;
+		// return false;
 	}
 
 	// If we're not forcing 2FA, return early.
@@ -198,7 +199,7 @@ function e2fa_is_jetpack_authorize_request() {
 		// This works with the classic core XML-RPC endpoint, but not
 		// Jetpack's alternate endpoint.
 		defined( 'XMLRPC_REQUEST' ) && XMLRPC_REQUEST
-		&& isset( $_GET['for'] ) && 'jetpack' === $_GET['for']  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		&& isset( $_GET['for'] ) && 'jetpack' === $_GET['for']  // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- It is an Request Paramenter Set by JetPack without Nonce, So here also we don't have nonce.
 		&& isset( $GLOBALS['wp_xmlrpc_server'], $GLOBALS['wp_xmlrpc_server']->message, $GLOBALS['wp_xmlrpc_server']->message->methodName )
 		&& 'jetpack.remoteAuthorize' === $GLOBALS['wp_xmlrpc_server']->message->methodName
 	) || (
@@ -316,12 +317,6 @@ if ( ! defined( 'WP_INSTALLING' ) ) {
  */
 function e2fa_enable_two_factor_plugin() {
 
-	// If the two-factor plugin is not enabled, return early.
-	$enable_two_factor = apply_filters( 'enable_two_factor', true );
-	if ( true !== $enable_two_factor ) {
-		return;
-	}
-
 	// If the two-factor plugin is not installed, return early.
 	if ( file_exists( WP_PLUGIN_DIR . '/two-factor/two-factor.php' ) ) {
 
@@ -421,18 +416,16 @@ function e2fa_two_factor_admin_notice() {
 
 	?>
 	<div id="e2fa-error" class="notice-error wrap clearfix" style="align-items: center;background: #ffffff;border-left-width:4px;border-left-style:solid;border-radius: 6px;display: flex;margin-top: 30px;padding: 30px;line-height: 2em;">
-			<div class="dashicons dashicons-warning" style="display:flex;float:left;margin-right:2rem;font-size:38px;align-items:center;margin-left:-20px;color:#ffb900;"></div>
-			<div>
-				<p style="font-weight:bold; font-size:16px;">Two Factor Authentication is required to edit content on this site.</p>
-
-				<p>For the safety and security of this site, your account access has been downgraded. Please enable two-factor authentication to restore your access.</p>
-
-				<p>
-					<a href="<?php echo esc_url( admin_url( 'profile.php#two-factor-options' ) ); ?>" class="button button-primary">
-						Enable Two-factor Authentication
-					</a>
-				</p>
-			</div>
+		<div class="dashicons dashicons-warning" style="display:flex;float:left;margin-right:2rem;font-size:38px;align-items:center;margin-left:-20px;color:#ffb900;"></div>
+		<div>
+			<p style="font-weight:bold; font-size:16px;"><?php esc_html_e( 'Two Factor Authentication is required to edit content on this site.' ); ?></p>
+			<p><?php esc_html_e( 'For the safety and security of this site, your account access has been downgraded. Please enable two-factor authentication to restore your access.' ); ?></p>
+			<p>
+				<a href="<?php echo esc_url( admin_url( 'profile.php#two-factor-options' ) ); ?>" class="button button-primary">
+					<?php esc_html_e( 'Enable Two-factor Authentication' ); ?>
+				</a>
+			</p>
+		</div>
 	</div>
 	<?php
 }
