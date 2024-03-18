@@ -131,7 +131,7 @@ function e2fa_should_force_two_factor() {
 
 	// Fallout, if Localhost.
 	if ( 'local' === wp_get_environment_type() || ( isset( $_SERVER['HTTP_HOST'] ) && in_array( $_SERVER['HTTP_HOST'], array( 'localhost', '127.0.0.1', '[::1]', '192.168.0.1', '192.168.1.1' ), true ) ) ) {
-		// return false;
+		return false;
 	}
 
 	// If we're not forcing 2FA, return early.
