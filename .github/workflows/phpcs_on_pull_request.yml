@@ -6,7 +6,7 @@ jobs:
     # Change below line to: `runs-on: ubuntu-latest` if not using self-hosted runners or if it is a public repo.
     runs-on: high-performance
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
       with:
         ref: ${{ github.event.pull_request.head.sha }}
     - name: Run PHPCS inspection
