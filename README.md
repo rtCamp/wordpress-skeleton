@@ -4,11 +4,11 @@ Project description and short intro goes here.
 
 ## Environments
 
-| Environment | Branch  | URL                          | Hostname            |
-|-------------|---------|------------------------------|---------------------|
-| Production  | main  | https://example.com          | prod.example.com    |
-| Staging     | staging | https://staging.example.com  | staging.example.com |
-| Development | develop | https://dev.example.com      | dev.example.com     |
+Environment   Branch     URL                                   Hostname
+Production    main       https://wordpress.org                 wordpress.org
+Staging       staging    https://developer.wordpress.org       developer.wordpress.org
+Development   develop    https://make.wordpress.org            make.wordpress.org
+
 
 ## Maintainer
 
