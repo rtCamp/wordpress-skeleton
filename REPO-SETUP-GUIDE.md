@@ -46,7 +46,7 @@ You need to add `VAULT_ADDR` and `VAULT_TOKEN` secrets to GitHub repository. Con
 
 For more details, refer:
 https://github.com/rtCamp/action-deploy-wordpress/
-https://github.com/rtCamp/action-plugin-update/
+
 
 ## Setting up slack notifications for the repo
 
