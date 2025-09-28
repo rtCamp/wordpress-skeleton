@@ -59,7 +59,7 @@ Both the templates aim to minimize the slack threads, calls and discussion due t
 4. `workflows` - GitHub actions yml files.
     i. `deploy_on_push.yml` - Action to deploy site and send success slack notification. Based on [action-deploy-wordpress](https://github.com/rtCamp/action-deploy-wordpress/) and [action-slack-notify](https://github.com/rtCamp/action-slack-notify/)
     ii. `phpcs_on_pull_request.yml` - Action to run PHPCS checks on PRs. Based on [action-phpcs-code-review](https://github.com/rtCamp/action-phpcs-code-review/).
-    iii. `plugin_update_every_week.yml` - Action to check for plugin updates every week and generate PR if update available. Based on [action-plugin-update](https://github.com/rtCamp/action-plugin-update/)
+    iii. `plugin_update_every_week.yml` - Action to check for plugin updates every week and generate PR if update available. 
     iv. `repo_housekeeping.yml` - Future automation action to cleanup merged branches, report stale issues and stale PRs to PM, cleanup old repos of stale things.
 
 ### .gitignore
